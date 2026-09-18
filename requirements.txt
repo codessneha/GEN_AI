@@ -3,3 +3,4 @@ langchain-openai
 dotenv
 langchain-groq
 langchain-google-genai
+streamlit
