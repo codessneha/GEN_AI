@@ -5,6 +5,7 @@ load_dotenv()
 from langchain_groq import ChatGroq
 from langchain_community.utilities import GoogleSerperAPIWrapper
 from langchain.agents import create_agent
+from langgraph.checkpoint.memory import MemorySaver
 
 
 # LLM
@@ -15,12 +16,14 @@ llm = ChatGroq(
 
 # Google Search tool
 search = GoogleSerperAPIWrapper()
+memory=MemorySaver()
 
 
 # Create agent
 agent = create_agent(
     model=llm,
     tools=[search.run],
+    checkpointer=memory,
     system_prompt="You are a helpful assistant that can answer questions using Google search results."
 )
 
@@ -41,6 +44,11 @@ while True:
                     "content": query
                 }
             ]
+        },
+        {
+            "configurable": {
+                "thread_id": "asd123"
+            }
         }
     )
 
